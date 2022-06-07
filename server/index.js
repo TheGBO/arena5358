@@ -20,7 +20,7 @@ setInterval(() => {
         game.sendGameState(io);
         scorePoint.addScorePoint(game.gameState);
     }
-}, Math.floor(Math.random() * 1250));
+}, Math.floor(Math.random() * 5550));
 
 io.on('connection', (socket) => {
     socket.on('connectPlayer', (data) => {
@@ -31,6 +31,7 @@ io.on('connection', (socket) => {
 
     socket.on('movePlayer', (key) => {
         player.movePlayer(socket, key, game.gameState);
+
         game.sendGameState(io);
     });
 
