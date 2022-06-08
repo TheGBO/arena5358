@@ -15,13 +15,6 @@ server.listen(port, () => {
 
 app.use(express.static(path.join(__dirname, '../public')));
 
-setInterval(() => {
-    if(Object.keys(game.gameState.players).length > 0){
-        game.sendGameState(io);
-        scorePoint.addScorePoint(game.gameState);
-    }
-}, Math.floor(Math.random() * 5550));
-
 io.on('connection', (socket) => {
     socket.on('connectPlayer', (data) => {
         player.createPlayer(socket.id, 500, 500, data.name, game.gameState);
@@ -29,10 +22,10 @@ io.on('connection', (socket) => {
         game.sendGameState(io);
     });
 
-    socket.on('movePlayer', (key) => {
-        player.movePlayer(socket, key, game.gameState);
+    socket.on('movePlayer', (position) => {
+        player.movePlayer(socket, position, game.gameState);
 
-        game.sendGameState(io);
+        socket.broadcast.emit('movePlayer', {pos:position, id:socket.id});
     });
 
     socket.on('disconnect', () => {

@@ -27,6 +27,15 @@ socket.on('gameState', (gs) => {
     gameState = gs;
 });
 
+socket.on('movePlayer', (data) => {
+
+    const player = gameState.players[data.id];
+    if(!player) return;
+    player.x = data.pos.x;
+    player.y = data.pos.y;
+    
+});
+
 function loop(){
     if(myId === null) return;
 

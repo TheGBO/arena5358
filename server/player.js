@@ -12,9 +12,11 @@ function createPlayer(id, x, y, name, gameState){
     gameState.players[id] = player;
 }
 
-function movePlayer(socket, key, gameState){
+function movePlayer(socket, position, gameState){
     let currentPlayer = gameState.players[socket.id];
-    if(currentPlayer === null) return;
+    if(!currentPlayer) return;
+    currentPlayer.x = position.x;
+    currentPlayer.y = position.y;
     for (const key in gameState.scorePoints) {
         const element = gameState.scorePoints[key];
 
@@ -25,26 +27,6 @@ function movePlayer(socket, key, gameState){
             currentPlayer.size += element.size / 10;
         }
         
-    }
-    switch (key.toLowerCase()) {
-        case 'a':
-            currentPlayer.x -= currentPlayer.speed;
-            break;
-
-        case 'd':
-            currentPlayer.x += currentPlayer.speed;
-            break;
-
-        case 'w':
-            currentPlayer.y -= currentPlayer.speed;
-            break;
-
-        case 's':
-            currentPlayer.y += currentPlayer.speed;
-            break;
-    
-        default:
-            break;
     }
 }
 
